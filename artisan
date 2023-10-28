@@ -1,0 +1,56 @@
+<?php
+
+/*
+|----------------------------------------------------------------------------
+| Define la constante LARAVEL_START que almacena el valor de microtime(true),
+| que representa el tiempo que tarda en ejecutarse ciertas partes del código.
+|----------------------------------------------------------------------------
+*/
+
+define('LARAVEL_START', microtime(true));
+
+/*
+|-------------------------------------------------------------------------------------
+| Carga automáticamente las clases necesarias de la aplicación generadas por Composer.
+|-------------------------------------------------------------------------------------
+*/
+
+require __DIR__ . '/vendor/autoload.php';
+
+/*
+|----------------------------------
+| Inicializa la aplicación Laravel.
+|----------------------------------
+*/
+
+$app = require_once __DIR__ . '/bootstrap/app.php';
+
+/*
+|----------------------------------------------------------------------------
+| Se ejecuta el comando Artisan. $input representa los argumentos de la línea
+| de comandos y ConsoleOutput representa la salida del comando en la consola.
+|----------------------------------------------------------------------------
+*/
+
+$kernel = $app->make(Illuminate\Contracts\Console\Kernel::class);
+
+$status = $kernel->handle(
+    $input = new Symfony\Component\Console\Input\ArgvInput,
+    new Symfony\Component\Console\Output\ConsoleOutput
+);
+
+/*
+|-------------------------------
+| Finaliza el kernel de Laravel.
+|-------------------------------
+*/
+
+$kernel->terminate($input, $status);
+
+/*
+|----------------------------------------------------------------------
+| Código de estado para validar si el comando se ejecutó correctamente.
+|----------------------------------------------------------------------
+*/
+
+exit($status);
